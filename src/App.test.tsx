@@ -53,4 +53,14 @@ describe("App", () => {
 
     expect(screen.getByTestId("display")).toHaveTextContent("2");
   });
+  it("performs multiplication correctly", () => {
+    render(<App />);
+
+    userEvent.click(screen.getByRole("button", { name: "4" }));
+    userEvent.click(screen.getByRole("button", { name: "×" }));
+    userEvent.click(screen.getByRole("button", { name: "3" }));
+    userEvent.click(screen.getByRole("button", { name: "=" }));
+
+    expect(screen.getByTestId("display")).toHaveTextContent("12");
+  });
 });
