@@ -77,4 +77,11 @@ describe("App", () => {
 
     expect(screen.getByTestId("display")).toHaveTextContent("10");
   });
+  it("clears the display when C button is clicked", () => {
+    render(<App />);
+
+    userEvent.click(screen.getByRole("button", { name: "5" }));
+    userEvent.click(screen.getByRole("button", { name: "C" }));
+    expect(screen.getByTestId("display")).toHaveTextContent("0");
+  });
 });
