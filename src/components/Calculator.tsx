@@ -5,12 +5,14 @@ const Calculator = () => {
   const [display, setDisplay] = useState("0");
   const [prevValue, setPrevValue] = useState<string | null>(null);
   const [operator, setOperator] = useState<string | null>(null);
+  const [newNumber, setNewNumber] = useState(true);
 
   const handleClick = (value: string) => {
     if (value === "C") {
       setDisplay("0");
       setPrevValue(null);
       setOperator(null);
+      setNewNumber(true);
     } else if (value === "=") {
       if (prevValue !== null && operator !== null) {
         const currentValue = Number(display);
@@ -18,20 +20,26 @@ const Calculator = () => {
         setDisplay(result.toString());
         setPrevValue(result.toString());
         setOperator(null);
+        setNewNumber(true);
       }
     } else if (["+", "-", "×"].includes(value)) {
       if (prevValue === null) {
         setPrevValue(display);
-      } else {
+      } else if (!newNumber) {
         const currentValue = Number(display);
         const result = performOperation(prevValue, currentValue, operator!);
         setDisplay(result.toString());
         setPrevValue(result.toString());
       }
       setOperator(value);
-      setDisplay("0");
+      setNewNumber(true);
     } else {
-      setDisplay((prev) => (prev === "0" ? value : prev + value));
+      if (newNumber) {
+        setDisplay(value);
+        setNewNumber(false);
+      } else {
+        setDisplay((prev) => (prev === "0" ? value : prev + value));
+      }
     }
   };
 
