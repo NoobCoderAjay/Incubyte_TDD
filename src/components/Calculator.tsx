@@ -1,5 +1,5 @@
 const CalculatorUI = () => {
-  return <div>Calculator</div>;
+  return <div data-testid="calculator">Calculaor</div>;
 };
 
 export default CalculatorUI;
