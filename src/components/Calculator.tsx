@@ -34,6 +34,8 @@ const Calculator = () => {
     switch (operator) {
       case "+":
         return numA + b;
+      case "-":
+        return numA - b;
       default:
         return b;
     }
