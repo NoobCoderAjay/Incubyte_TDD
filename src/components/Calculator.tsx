@@ -36,6 +36,8 @@ const Calculator = () => {
         return numA + b;
       case "-":
         return numA - b;
+      case "×":
+        return numA * b;
       default:
         return b;
     }
