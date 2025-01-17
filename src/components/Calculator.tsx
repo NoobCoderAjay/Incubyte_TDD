@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../styles/Calculator.css";
 
 const Calculator = () => {
   const [display, setDisplay] = useState("0");
@@ -49,45 +50,53 @@ const Calculator = () => {
   };
 
   return (
-    <div data-testid="calculator">
-      <div data-testid="display">{display}</div>
-      <div>
-        {Array.from({ length: 10 }).map((_, index) => (
-          <button
-            key={index}
-            name={index.toString()}
-            className="number-button"
-            onClick={() => handleClick(index.toString())}
-          >
-            {index}
-          </button>
-        ))}
-
-        {["+", "-", "×"].map((op) => (
-          <button
-            key={op}
-            name={op}
-            className="operator-button"
-            onClick={() => handleClick(op)}
-          >
-            {op}
-          </button>
-        ))}
-
-        <button
-          name="="
-          className="equals-button"
-          onClick={() => handleClick("=")}
-        >
-          =
-        </button>
-        <button
-          name="C"
-          className="clear-button"
-          onClick={() => handleClick("C")}
-        >
-          C
-        </button>
+    <div className="calculator-container">
+      <div className="calculator" data-testid="calculator">
+        <div className="display" data-testid="display">
+          {display}
+        </div>
+        <div className="keypad">
+          <div className="numbers">
+            {Array.from({ length: 10 }).map((_, index) => (
+              <button
+                key={index}
+                name={index.toString()}
+                className="btn number-btn"
+                onClick={() => handleClick(index.toString())}
+              >
+                {index}
+              </button>
+            ))}
+          </div>
+          <div className="operators">
+            {["+", "-", "×"].map((op) => (
+              <button
+                key={op}
+                name={op}
+                className={`btn operator-btn ${
+                  operator === op ? "active" : ""
+                }`}
+                onClick={() => handleClick(op)}
+              >
+                {op}
+              </button>
+            ))}
+            <button
+              name="="
+              className="btn equals-btn"
+              onClick={() => handleClick("=")}
+            >
+              =
+            </button>
+            <button
+              name="C"
+              className="btn clear-btn"
+              onClick={() => handleClick("C")}
+            >
+              C
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

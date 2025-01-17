@@ -14,22 +14,18 @@ describe("App", () => {
     for (let i = 0; i <= 9; i++) {
       const button = screen.getByRole("button", { name: i.toString() });
       expect(button).toBeInTheDocument();
-      expect(button).toHaveClass("number-button");
+      expect(button).toHaveClass("number-btn");
     }
 
     const operators = ["+", "-", "×"];
     operators.forEach((op) => {
       const button = screen.getByRole("button", { name: op });
       expect(button).toBeInTheDocument();
-      expect(button).toHaveClass("operator-button");
+      expect(button).toHaveClass("operator-btn");
     });
 
-    expect(screen.getByRole("button", { name: "=" })).toHaveClass(
-      "equals-button"
-    );
-    expect(screen.getByRole("button", { name: "C" })).toHaveClass(
-      "clear-button"
-    );
+    expect(screen.getByRole("button", { name: "=" })).toHaveClass("equals-btn");
+    expect(screen.getByRole("button", { name: "C" })).toHaveClass("clear-btn");
 
     expect(screen.getByTestId("display")).toHaveTextContent("0");
   });
@@ -83,5 +79,20 @@ describe("App", () => {
     userEvent.click(screen.getByRole("button", { name: "5" }));
     userEvent.click(screen.getByRole("button", { name: "C" }));
     expect(screen.getByTestId("display")).toHaveTextContent("0");
+  });
+  it("maintains display value when operator is clicked", () => {
+    render(<App />);
+
+    userEvent.click(screen.getByRole("button", { name: "5" }));
+    expect(screen.getByTestId("display")).toHaveTextContent("5");
+
+    userEvent.click(screen.getByRole("button", { name: "+" }));
+    expect(screen.getByTestId("display")).toHaveTextContent("5");
+
+    userEvent.click(screen.getByRole("button", { name: "-" }));
+    expect(screen.getByTestId("display")).toHaveTextContent("5");
+
+    userEvent.click(screen.getByRole("button", { name: "×" }));
+    expect(screen.getByTestId("display")).toHaveTextContent("5");
   });
 });
