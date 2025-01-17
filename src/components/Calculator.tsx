@@ -13,14 +13,19 @@ const Calculator = () => {
     } else if (value === "=") {
       if (prevValue !== null && operator !== null) {
         const currentValue = Number(display);
-        const result = performOperation(prevValue, currentValue, operator);
+        const result = performOperation(prevValue!, currentValue, operator);
         setDisplay(result.toString());
-        setPrevValue(null);
+        setPrevValue(result.toString());
         setOperator(null);
       }
     } else if (["+", "-", "×"].includes(value)) {
       if (prevValue === null) {
         setPrevValue(display);
+      } else {
+        const currentValue = Number(display);
+        const result = performOperation(prevValue, currentValue, operator!);
+        setDisplay(result.toString());
+        setPrevValue(result.toString());
       }
       setOperator(value);
       setDisplay("0");
