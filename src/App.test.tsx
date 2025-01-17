@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
+import userEvent from "@testing-library/user-event";
 import App from "./App";
 
 describe("App", () => {
@@ -31,5 +32,15 @@ describe("App", () => {
     );
 
     expect(screen.getByTestId("display")).toHaveTextContent("0");
+  });
+  it("performs addition correctly", () => {
+    render(<App />);
+
+    userEvent.click(screen.getByRole("button", { name: "2" }));
+    userEvent.click(screen.getByRole("button", { name: "+" }));
+    userEvent.click(screen.getByRole("button", { name: "3" }));
+    userEvent.click(screen.getByRole("button", { name: "=" }));
+
+    expect(screen.getByTestId("display")).toHaveTextContent("5");
   });
 });
