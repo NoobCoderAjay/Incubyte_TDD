@@ -43,4 +43,14 @@ describe("App", () => {
 
     expect(screen.getByTestId("display")).toHaveTextContent("5");
   });
+  it("performs subtraction correctly", () => {
+    render(<App />);
+
+    userEvent.click(screen.getByRole("button", { name: "5" }));
+    userEvent.click(screen.getByRole("button", { name: "-" }));
+    userEvent.click(screen.getByRole("button", { name: "3" }));
+    userEvent.click(screen.getByRole("button", { name: "=" }));
+
+    expect(screen.getByTestId("display")).toHaveTextContent("2");
+  });
 });
