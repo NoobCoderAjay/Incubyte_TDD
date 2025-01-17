@@ -63,4 +63,18 @@ describe("App", () => {
 
     expect(screen.getByTestId("display")).toHaveTextContent("12");
   });
+  it("handles consecutive operations", () => {
+    render(<App />);
+
+    userEvent.click(screen.getByRole("button", { name: "2" }));
+    userEvent.click(screen.getByRole("button", { name: "+" }));
+    userEvent.click(screen.getByRole("button", { name: "3" }));
+    userEvent.click(screen.getByRole("button", { name: "=" }));
+
+    userEvent.click(screen.getByRole("button", { name: "×" }));
+    userEvent.click(screen.getByRole("button", { name: "2" }));
+    userEvent.click(screen.getByRole("button", { name: "=" }));
+
+    expect(screen.getByTestId("display")).toHaveTextContent("10");
+  });
 });
