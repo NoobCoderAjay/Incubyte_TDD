@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import App from "./App";
@@ -94,5 +94,82 @@ describe("App", () => {
 
     userEvent.click(screen.getByRole("button", { name: "×" }));
     expect(screen.getByTestId("display")).toHaveTextContent("5");
+  });
+  describe("Keyboard Input", () => {
+    it("handles numeric keyboard input", () => {
+      render(<App />);
+
+      fireEvent.keyDown(document, { key: "2" });
+      expect(screen.getByTestId("display")).toHaveTextContent("2");
+
+      fireEvent.keyDown(document, { key: "5" });
+      expect(screen.getByTestId("display")).toHaveTextContent("25");
+    });
+
+    it("handles operator keyboard input", () => {
+      render(<App />);
+
+      fireEvent.keyDown(document, { key: "5" });
+      fireEvent.keyDown(document, { key: "+" });
+      fireEvent.keyDown(document, { key: "3" });
+      fireEvent.keyDown(document, { key: "Enter" });
+
+      expect(screen.getByTestId("display")).toHaveTextContent("8");
+    });
+
+    it("handles multiplication using * key", () => {
+      render(<App />);
+
+      fireEvent.keyDown(document, { key: "4" });
+      fireEvent.keyDown(document, { key: "*" });
+      fireEvent.keyDown(document, { key: "3" });
+      fireEvent.keyDown(document, { key: "Enter" });
+
+      expect(screen.getByTestId("display")).toHaveTextContent("12");
+    });
+
+    it("handles clear using Escape key", () => {
+      render(<App />);
+
+      fireEvent.keyDown(document, { key: "5" });
+      fireEvent.keyDown(document, { key: "Escape" });
+
+      expect(screen.getByTestId("display")).toHaveTextContent("0");
+    });
+
+    it("handles multiple operations using keyboard", () => {
+      render(<App />);
+
+      fireEvent.keyDown(document, { key: "2" });
+      fireEvent.keyDown(document, { key: "+" });
+      fireEvent.keyDown(document, { key: "3" });
+      fireEvent.keyDown(document, { key: "Enter" });
+      fireEvent.keyDown(document, { key: "*" });
+      fireEvent.keyDown(document, { key: "2" });
+      fireEvent.keyDown(document, { key: "Enter" });
+
+      expect(screen.getByTestId("display")).toHaveTextContent("10");
+    });
+
+    it("ignores non-numeric and non-operator keys", () => {
+      render(<App />);
+
+      fireEvent.keyDown(document, { key: "a" });
+      fireEvent.keyDown(document, { key: "b" });
+      fireEvent.keyDown(document, { key: "$" });
+
+      expect(screen.getByTestId("display")).toHaveTextContent("0");
+    });
+
+    it("handles backspace key", () => {
+      render(<App />);
+
+      fireEvent.keyDown(document, { key: "1" });
+      fireEvent.keyDown(document, { key: "2" });
+      fireEvent.keyDown(document, { key: "3" });
+      fireEvent.keyDown(document, { key: "Backspace" });
+
+      expect(screen.getByTestId("display")).toHaveTextContent("12");
+    });
   });
 });
